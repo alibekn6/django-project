@@ -1,0 +1,11 @@
+#python files
+venv/
+.pylintrc
+__pycache__/
+
+.vscode
+.idea
+
+#django
+db.sqlite3
+media
