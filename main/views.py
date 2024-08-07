@@ -1,16 +1,18 @@
-from django.http import HttpResponse
+from django.http import HttpResponse # type: ignore
 from django.shortcuts import render
 
 def index(request):
     context = {
-        'title': 'Home',
-        'content': 'Main page of store - HOME',
-        'list': ['first', 'second'],
-        'dict': {'first': 1},
-        'is_authenticated': False
+        'title': 'Home - Главная',
+        'content': 'Магазин мебели HOME'
     }
     return render(request, 'main/index.html', context)
 
 
 def about(request):
-    return HttpResponse("about pageddd")
+    context = {
+        'title': 'Home - О нас',
+        'content': 'О нас',
+        'text_on_page': 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae, reiciendis.'
+    }
+    return render(request, 'main/about.html', context)
