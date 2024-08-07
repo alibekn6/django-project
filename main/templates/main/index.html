@@ -1,23 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
+    <link rel="stylesheet" href="deps/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="deps/css/my_css.css">
+    <!-- Стиль footer-a для главной страницы -->
+    <link rel="stylesheet" href="deps/css/my_footer_css.css">
+    <!-- Favicons for different platforms -->
+    <link rel="apple-touch-icon" sizes="180x180" href="deps/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="deps/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="deps/favicon/favicon-16x16.png">
+    <link rel="manifest" href="deps/favicon/site.webmanifest">
+    <title>Home</title>
 </head>
+
 <body>
-
-    <p>{{ list.0 }}</p>
-    <p>{{ dict.first }}</p>
-    <p>{{ bool }}</p>
-
-    
-    <br>
-    {% if is_authenticated %}
-        bro is autheticated 😭😭😭🗣️🗣️🗣️🙏🏽<p>{{ content }}</p>
-    {% else %}
-    <p>bro is not autheticated 🥶</p>
-    {% endif %}
-
+    <header>
+        <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">Home</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown ">
+                            <a class="nav-link dropdown-toggle text-white" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Информация
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item  text-white" href="#">Доставка и оплата</a></li>
+                                <li><a class="dropdown-item  text-white" href="#">Контактная информация</a></li>
+                                <li><a class="dropdown-item  text-white" href="#">Про нас</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link  text-white" href="carts/cart.html">Корзина</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link  text-white" href="users/login.html">Войти</a>
+                        </li>
+                        <li class="nav-item dropdown ">
+                            <a class="nav-link dropdown-toggle text-white" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Мой профиль
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item  text-white" href="carts/cart.html">Корзина</a></li>
+                                <li><a class="dropdown-item  text-white" href="users/profile.html">Личный кабинет</a>
+                                </li>
+                                <li><a class="dropdown-item  text-white" href="#">Админ панель</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item  text-white" href="#">Выйти</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success text-white" type="submit">Поиск</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <section>
+        <div class="container">
+            <!-- Каталог и корзина с фиксированным расположением на странице -->
+            <div class="row mt-1 position-fixed z-3">
+                <!-- Каталог -->
+                <div class="dropdown mb-2">
+                    <button class="btn btn-secondary dropdown-toggle btn-dark" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Каталог
+                        <img class="mx-1" src="deps/icons/grid-fill.svg" alt="Catalog Icon" width="16"
+                            height="16">
+                    </button>
+                    <ul class="dropdown-menu bg-dark" data-bs-theme="dark">
+                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Все товары</a></li>
+                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Кухня</a></li>
+                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Спальня</a></li>
+                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Гостинная</a></li>
+                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Офис</a></li>
+                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Фурнитура</a></li>
+                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Декор</a></li>
+                    </ul>
+                </div>
+                <!-- Значек корзины, вызывает модальное окно -->
+                <div>
+                    <button type="button" class="btn btn-dark btn-secondary d-flex" id="modalButton"
+                        aria-expanded="false">
+                        <img class="mx-1" src="deps/icons/basket2-fill.svg" alt="Catalog Icon" width="24"
+                            height="24">
+                        <span id="goods-in-cart-count">0</span>
+                    </button>
+                </div>
+                <!-- Разметка модального окна корзины -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h3 class="text-center mb-4">Корзина</h3>
+                                <div class="container" id="cart-items-container">
+                                    <!-- Разметка корзины -->
+                                    <div class="card mb-3 text-bg-light shadow-lg">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Товар</h5>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">
+                                                <div class="row text-center">
+                                                    <div class="col p-0">
+                                                        <div class="input-group">
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-dark btn-sm decrement"
+                                                                    data-cart-id="" data-cart-change-url="">-</button>
+                                                            </span>
+                                                            <input type="text" class="form-control number" value="1"
+                                                                readonly>
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-dark btn-sm increment"
+                                                                    data-cart-id="" data-cart-change-url="">+</button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col p-0">
+                                                        <p>x 100.00 = </p>
+                                                    </div>
+                                                    <div class="col p-0"><strong>100.00 $</strong></div>
+                                                    <div class="col p-0">
+                                                        <a href="#" class="remove-from-cart" data-cart-id="">
+                                                            <img class="mx-1" src="deps/icons/trash3-fill.svg"
+                                                                alt="Catalog Icon" width="16" height="16">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="card mb-3 shadow-lg">
+                                        <div class="card-footer">
+                                            <p class="float-left">Итого <strong>1</strong> товар(а) на сумму</p>
+                                            <h4 class="float-left"><strong>100.00 $</strong></h4>
+                                        </div>
+                                    </div>
+                                    <!-- Закончилась разметка корзины -->
+                                </div>
+                                <a class="btn btn-dark" href="orders/create_order.html">
+                                    Оформить заказ
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Закончилась разметка модального окна -->
+            </div>
+        </div>
+        <!-- Контент -->
+        <div class="container">
+            <div class="row mt-1">
+                <div class="col-lg-2">
+                    <!-- Пустой блок на Ваше усмотрение -->
+                </div>
+                <div class="col-lg-10">
+                    <!-- Контент на странице -->
+                    <h1 class="mt-5 pt-5"><strong>Магазин мебели HOME</strong></h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="py-4 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Home Python Hub Studio 2023</p>
+        </div>
+    </footer>
+    <script src="deps/js/jquery/jquery-3.7.0.min.js"></script>
+    <script src="deps/js/jquery-events.js"></script>
+    <script src="deps/js/jquery-ajax.js"></script>
+    <script src="deps/js/bootstrap/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
